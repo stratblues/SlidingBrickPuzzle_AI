@@ -1,14 +1,9 @@
-# sets up the game state
-# reads from a text file, first two integers are the dimensions of the matrix
-from sys import argv
-
-
 class GameState:
     def __init__(self):
         self.goalState = -1
         self.emptyCell = 0
         self.wall = 1
-        self.masterBrick = 2
+        self.masterBrickPiece = 2
         self.rows = 0
         self.cols = 0
         self.game = []
@@ -27,9 +22,12 @@ class GameState:
                     self.game[row][col] = row_vals[col]
 
     def printGame(self):
-        if argv[1] == 'print':
-            print(self.firstLine)
-            print(self.game)
+        print(self.firstLine[0], ",", self.firstLine[1])
+        for row in self.game:
+            for col in row:
+                print(col, ",", end=' ')
+
+            print()
 
     def cloneState(self):
         newGame = GameState()
@@ -90,31 +88,25 @@ class GameState:
         for i in range(self.rows):
             for j in range(self.cols):
                 if self.game[i][j] == piece:
-                    if moveDirection == "up" and i > 0:
-                        self.game[i][j], self.game[i-1][j] = self.game[i-1][j], self.game[i][j]
-                    elif moveDirection == "down" and i < self.rows - 1:
-                        self.game[i][j], self.game[i+1][j] = self.game[i+1][j], self.game[i][j]
-                    elif moveDirection == "left" and j > 0:
-                        self.game[i][j], self.game[i][j-1] = self.game[i][j-1], self.game[i][j]
-                    elif moveDirection == "right" and j < self.cols - 1:
-                        self.game[i][j], self.game[i][j+1] = self.game[i][j+1], self.game[i][j]
-
-        print(self.firstLine)
-        print(self.game)
+                    if moveDirection == "up" and i > 0 and self.game[i - 1][j] == 0:
+                        self.game[i][j], self.game[i - 1][j] = self.game[i - 1][j], piece
+                        return True
+                    if moveDirection == "down" and i < self.rows - 1 and self.game[i + 1][j] == 0:
+                        self.game[i][j], self.game[i + 1][j] = self.game[i + 1][j], piece
+                        return True
+                    if moveDirection == "left" and j > 0 and self.game[i][j - 1] == 0:
+                        self.game[i][j], self.game[i][j - 1] = self.game[i][j - 1], piece
+                        return True
+                    if moveDirection == "right" and j < self.cols - 1 and self.game[i][j + 1] == 0:
+                        self.game[i][j], self.game[i][j + 1] = self.game[i][j + 1], piece
+                        return True
+                    else:
+                        return False
         return True
 
     def returnNewStateAfterMove(self, move):
         newGame = self.cloneState()
         newGame.applyMove(move)
         newGame.printGame()
-
-
-
-
-
-
-
-
-
 
 
