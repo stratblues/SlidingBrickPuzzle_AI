@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="tux.cs.drexel.edu" id="19a64153-b27b-4049-9a80-0e5ddff03b3e" port="22" nameFormat="DESCRIPTIVE" username="ts3552" useOpenSSHConfig="true" />
+    </configs>
+  </component>
+</project>
