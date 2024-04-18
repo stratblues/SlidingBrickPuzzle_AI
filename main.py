@@ -1,6 +1,7 @@
 from GameState import GameState
 import Compare
 import sys
+import Normalize
 
 if __name__ == '__main__':
     game = GameState()
@@ -18,3 +19,5 @@ if __name__ == '__main__':
         game.printAllMoves()
     elif command == "compare":
         Compare.compareStates(sys.argv[2], sys.argv[3])
+    elif command == "norm":
+        Normalize.normalize(sys.argv[2])
