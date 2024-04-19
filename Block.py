@@ -1,7 +1,10 @@
 class Block:
     def __init__(self, blockID, positions):
+        #block id from val in enumerate grid logic
         self.blockID = blockID
-        self.positions = positions  # tuples list (x,y)
+
+        # tuples list of (x,y) spot in grid
+        self.positions = positions
 
     def move(self, direction, board):
         newPositions = self.calcNewPositions(direction)

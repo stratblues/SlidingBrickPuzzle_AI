@@ -7,8 +7,13 @@ class Board:
     def __init__(self, col, row, blocks):
         self.col = col
         self.row = row
-        self.blocks = blocks  # dict blockID to Block obj
-        self.goalPosition = None  # tuple(x,y)
+
+        # dict blockID to Block obj
+        self.blocks = blocks
+
+        # tuple
+        self.goalPosition = None
+
         self.grid = [[0 for _ in range(col)] for _ in range(row)]
 
     def loadBoardFromFile(self, filename):
@@ -17,11 +22,13 @@ class Board:
             self.col = int(firstLine[0])
             self.row = int(firstLine[1])
             self.grid = [[0 for _ in range(self.col)] for _ in range(self.row)]
+            # blocks dict
             blocks = {}
             for row, line in enumerate(f):
                 for col, val in enumerate(line.strip().split(',')):
                     if val:
                         val = int(val)
+                        # add items to grid here
                         self.grid[row][col] = val
                         if val == -1:
                             self.goalPosition = (row, col)
@@ -29,21 +36,13 @@ class Board:
                             if val in blocks:
                                 blocks[val].positions.append((row, col))
                             else:
+                                # fill blocks dict with block object
                                 blocks[val] = Block(val, [(row, col)])
+            # make sure to set local dict to object dict
             self.blocks = blocks
 
     def cloneState(self):
         return copy.deepcopy(self)
-
-    def checkMove(self, positions, blockID):
-        for row, col in positions:
-            if col < 0 or col >= self.col or row < 0 or row >= self.row:
-                return False
-            if self.grid[row][col] == -1 and blockID == 2:
-                continue
-            if self.grid[row][col] != 0 and self.grid[row][col] != blockID:
-                return False
-        return True
 
     def getBlock(self, blockID):
         return self.blocks.get(blockID)
@@ -63,6 +62,16 @@ class Board:
                 if self.checkMove(newPos, blockID):
                     moves.append((blockID, direction))
         return moves
+
+    def checkMove(self, positions, blockID):
+        for row, col in positions:
+            if col < 0 or col >= self.col or row < 0 or row >= self.row:
+                return False
+            if self.grid[row][col] == -1 and blockID == 2:
+                continue
+            if self.grid[row][col] != 0 and self.grid[row][col] != blockID:
+                return False
+        return True
 
     def compareStates(self, board2):
         for i in range(self.row):

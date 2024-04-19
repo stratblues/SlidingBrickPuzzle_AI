@@ -15,11 +15,10 @@ def parseMove(moveArgument):
 
 
 if __name__ == '__main__':
-
     command = sys.argv[1]
-    filename = sys.argv[2] if len(sys.argv) > 2 else none
+    filename = sys.argv[2] if len(sys.argv) > 2 else None
+    # GameStates being created in too many files, how to fix this?
     game = GameState(filename) if filename else GameState(None)
-
     if command == "print":
         game.printGame()
     elif command == "applyMove":

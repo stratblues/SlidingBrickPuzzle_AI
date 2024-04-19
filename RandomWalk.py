@@ -4,6 +4,7 @@ import random
 
 
 def randomWalk(filename, n):
+    # GameStates being created in too many files, how to fix this?
     game = GameState(filename)
     game.printGame()
     print()
