@@ -67,8 +67,10 @@ class Board:
         for row, col in positions:
             if col < 0 or col >= self.col or row < 0 or row >= self.row:
                 return False
+            # this allows the masteBrick to move over the goal state
             if self.grid[row][col] == -1 and blockID == 2:
                 continue
+            # can only move into open space
             if self.grid[row][col] != 0 and self.grid[row][col] != blockID:
                 return False
         return True
@@ -99,7 +101,7 @@ class Board:
                     self.grid[i][j] = idx1
 
     def printBoard(self):
-        print(f"{self.col},{self.row}")
+        print(f"{self.col},{self.row},")
         for row in self.grid:
             for col in row:
                 print(f"{col},", end=' ')

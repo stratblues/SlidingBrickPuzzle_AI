@@ -9,13 +9,17 @@ class Block:
     def move(self, direction, board):
         newPositions = self.calcNewPositions(direction)
         if board.checkMove(newPositions, self.blockID):
+            # set old grid positions now to equal 0
             for row, col in self.positions:
                 board.grid[row][col] = 0
+            # set new grid positions to equal new blockID val
             for row, col in newPositions:
                 board.grid[row][col] = self.blockID
+            # update block positions list
             self.positions = newPositions
 
     def calcNewPositions(self, direction):
+        # given a move direction, loop through all the block positions and adjust that position
         if direction == "up":
             return [(row-1, col) for row, col in self.positions]
         elif direction == "down":
