@@ -41,3 +41,11 @@ if __name__ == '__main__':
         Normalize.normalize(filename)
     elif command == "random":
         RandomWalk.randomWalk(filename, int(sys.argv[3]))
+    elif command == "bfs":
+        game.breadthFirstSearch()
+    elif command == "dfs":
+        game.depthFirstSearch()
+    elif command == "ids":
+        game.iterativeDeepeningSearch()
+    elif command == "astar":
+        game.aStarSearch()

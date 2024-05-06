@@ -11,6 +11,8 @@ class Block:
         if board.checkMove(newPositions, self.blockID):
             # set old grid positions now to equal 0
             for row, col in self.positions:
+                if self.blockID == 2:
+                    board.masterBrickPosition = (row, col)
                 board.grid[row][col] = 0
             # set new grid positions to equal new blockID val
             for row, col in newPositions:
@@ -21,13 +23,13 @@ class Block:
     def calcNewPositions(self, direction):
         # given a move direction, loop through all the block positions and adjust that position
         if direction == "up":
-            return [(row-1, col) for row, col in self.positions]
+            return [(row - 1, col) for row, col in self.positions]
         elif direction == "down":
-            return [(row+1, col) for row, col in self.positions]
+            return [(row + 1, col) for row, col in self.positions]
         elif direction == "left":
-            return [(row, col-1) for row, col in self.positions]
+            return [(row, col - 1) for row, col in self.positions]
         elif direction == "right":
-            return [(row, col+1) for row, col in self.positions]
+            return [(row, col + 1) for row, col in self.positions]
 
     def availableMoves(self, board):
         directions = ["up", "down", "left", "right"]
@@ -37,3 +39,8 @@ class Block:
                 validMoves.append((self.blockID, direction))
         return validMoves
 
+    def clone(self):
+        return Block(self.blockID, tuple(self.positions))
+
+    def getState(self):
+        return self.blockID, tuple(self.positions)

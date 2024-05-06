@@ -18,7 +18,7 @@ def randomWalk(filename, n):
         count += 1
         game.printGame()
         print()
-        game.board.normalize(game.board)
+        game.board.normalize()
         if game.board.identifySolutions():
             print(f"Game over, goal state reached in {count} move(s)!")
             return True
