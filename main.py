@@ -1,9 +1,13 @@
-from Board import Board
-from GameState import GameState
-import Compare
 import sys
+
+import Compare
 import Normalize
 import RandomWalk
+from AstarSearch import AstarSearch
+from BreadthFirstSearch import BreadthFirstSearch
+from DepthFirstSearch import DepthFirstSearch
+from GameState import GameState
+from IterativeDeepeningSearch import IterativeDeepeningSearch
 
 
 def parseMove(moveArgument):
@@ -42,10 +46,14 @@ if __name__ == '__main__':
     elif command == "random":
         RandomWalk.randomWalk(filename, int(sys.argv[3]))
     elif command == "bfs":
-        game.breadthFirstSearch()
+        search = BreadthFirstSearch()
+        search.search(game)
     elif command == "dfs":
-        game.depthFirstSearch()
+        search = DepthFirstSearch()
+        search.search(game)
     elif command == "ids":
-        game.iterativeDeepeningSearch()
+        search = IterativeDeepeningSearch()
+        search.search(game)
     elif command == "astar":
-        game.aStarSearch()
+        search = AstarSearch()
+        search.search(game)

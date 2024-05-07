@@ -1,3 +1,6 @@
+import copy
+
+
 class Block:
     def __init__(self, blockID, positions):
         #block id from val in enumerate grid logic
@@ -8,7 +11,7 @@ class Block:
 
     def move(self, direction, board):
         newPositions = self.calcNewPositions(direction)
-        if board.checkMove(newPositions, self.blockID):
+        if newPositions != self.positions and board.checkMove(newPositions, self.blockID):
             # set old grid positions now to equal 0
             for row, col in self.positions:
                 if self.blockID == 2:
@@ -35,12 +38,21 @@ class Block:
         directions = ["up", "down", "left", "right"]
         validMoves = []
         for direction in directions:
-            if board.checkMove(self.calcNewPositions(direction)):
+            newPositions = self.calcNewPositions(direction)
+            if newPositions != self.positions and board.checkMove(newPositions, self.blockID):
                 validMoves.append((self.blockID, direction))
         return validMoves
 
+    # def computeAvailableMoves(self, board):
+    #     directions = ["up", "down", "left", "right"]
+    #     validMoves = []
+    #     for direction in directions:
+    #         newPositions = self.calcNewPositions(direction)
+    #         if newPositions != self.positions and board.checkMove(newPositions, self.blockID):
+    #             validMoves.append((self.blockID, direction))
+    #     return validMoves
     def clone(self):
-        return Block(self.blockID, tuple(self.positions))
+        return copy.deepcopy(self)
 
     def getState(self):
         return self.blockID, tuple(self.positions)

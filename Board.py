@@ -14,6 +14,7 @@ class Board:
         self.masterBrickPosition = masterBrickPosition
         # tuple
         self.goalPosition = goalPosition
+
         if grid is None:
             self.grid = [[0 for _ in range(col)] for _ in range(row)]
         else:
@@ -48,11 +49,7 @@ class Board:
             self.blocks = blocks
 
     def cloneState(self):
-        clonedGrid = [row[:] for row in self.grid]
-        cloneGoalPosition = copy.deepcopy(self.masterBrickPosition)
-        cloneMasterBrickPosition = copy.deepcopy(self.goalPosition)
-        clonedBlocks = {id: block.clone() for id, block in self.blocks.items()}
-        return Board(self.col, self.row, clonedBlocks, clonedGrid, cloneGoalPosition, cloneMasterBrickPosition)
+        return copy.deepcopy(self)
 
     def getBlock(self, blockID):
         return self.blocks.get(blockID)
@@ -90,12 +87,13 @@ class Board:
         return True
 
     def compareStates(self, board2):
-        if len(self.blocks) == len(board2.blocks):
-            return True
-        for i in range(self.row):
-            for j in range(self.col):
-                if self.grid[i][j] != board2.grid[i][j]:
-                    return False
+        if len(self.blocks) != len(board2.blocks):
+            return False
+
+        for blockID, block in self.blocks.items():
+            if blockID not in board2.blocks or block.positions != board2.blocks[blockID].positions:
+                return False
+
         return True
 
     def normalize(self):
