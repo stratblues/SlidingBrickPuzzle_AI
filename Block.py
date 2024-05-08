@@ -3,15 +3,17 @@ import copy
 
 class Block:
     def __init__(self, blockID, positions):
-        #block id from val in enumerate grid logic
+        # block id from val in enumerate grid logic
         self.blockID = blockID
 
         # tuples list of (x,y) spot in grid
         self.positions = positions
+        self.cachedState = None
 
     def move(self, direction, board):
         newPositions = self.calcNewPositions(direction)
         if newPositions != self.positions and board.checkMove(newPositions, self.blockID):
+            self.cachedState = None
             # set old grid positions now to equal 0
             for row, col in self.positions:
                 if self.blockID == 2:
@@ -52,7 +54,9 @@ class Block:
     #             validMoves.append((self.blockID, direction))
     #     return validMoves
     def clone(self):
-        return copy.deepcopy(self)
+        return copy.copy(self)
 
-    def getState(self):
-        return self.blockID, tuple(self.positions)
+    def getState(self) -> tuple:
+        if self.cachedState is None:
+            self.cachedState = (self.blockID, tuple(sorted(self.positions)))
+        return self.cachedState

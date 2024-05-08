@@ -19,13 +19,17 @@ class AstarSearch(SearchStrategy):
         startState.g = 0
         startState.h = self.manhattanDistance(startState)
         startState.f = startState.g + startState.h
-        closedList = {}
+        closedList = set()
         counter = 0
         heapq.heappush(openList, (startState.f, counter, startState, []))
         counter += 1
 
         while openList:
             currentF, _, currentGameState, pathToState = heapq.heappop(openList)
+
+            currentStateTuple = gameState.dictionaryToTuple(currentGameState.board.blocks)
+            if currentStateTuple in closedList:
+                continue
 
             if currentGameState.identifySolutions():
                 endTime = time.time()
@@ -38,10 +42,7 @@ class AstarSearch(SearchStrategy):
                 print(f"{len(pathToState)}")
                 return pathToState
 
-            currentStateTuple = gameState.dictionaryToTuple(currentGameState.board.blocks)
-            if currentStateTuple in closedList:
-                continue
-            closedList[currentStateTuple] = None
+            closedList.add(currentStateTuple)
 
             for blockID, directions in currentGameState.availableMoves().items():
                 for direction in directions:

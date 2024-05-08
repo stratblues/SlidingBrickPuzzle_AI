@@ -10,7 +10,7 @@ class Board:
 
         # dict of blocks with blockID to Block obj
         self.blocks = blocks
-        #tuple
+        # tuple
         self.masterBrickPosition = masterBrickPosition
         # tuple
         self.goalPosition = goalPosition
@@ -19,6 +19,17 @@ class Board:
             self.grid = [[0 for _ in range(col)] for _ in range(row)]
         else:
             self.grid = [row[:] for row in grid]
+
+    def __deepcopy__(self, memo):
+        if id(self) in memo:
+            return memo[id(self)]
+        newBlocks = {blockID: block.clone() for blockID, block in self.blocks.items()}
+        newGrid = [row[:] for row in self.grid]
+        newBoard = self.__class__(self.col, self.row, newBlocks, newGrid, self.goalPosition,
+                                  self.masterBrickPosition)
+
+        memo[id(self)] = newBoard
+        return newBoard
 
     def loadBoardFromFile(self, filename):
         self.goalPosition = None

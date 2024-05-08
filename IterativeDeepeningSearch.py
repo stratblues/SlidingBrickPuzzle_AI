@@ -27,7 +27,7 @@ class IterativeDeepeningSearch(SearchStrategy):
         while stack:
             currentGameState, pathToState = stack.pop()
             currentDepth = len(pathToState)
-            currentStateToTuple = gameState.dictionaryToTuple(currentGameState.board.blocks)
+            currentStateToTuple = currentGameState.dictionaryToTuple(currentGameState.board.blocks)
             if currentDepth > depthLimit:
                 continue
             closedList[(currentStateToTuple, currentDepth)] = None

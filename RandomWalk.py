@@ -1,6 +1,6 @@
-from GameState import GameState
-
 import random
+
+from GameState import GameState
 
 
 def randomWalk(filename, n):

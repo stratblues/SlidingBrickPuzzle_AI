@@ -31,10 +31,10 @@ class GameState:
 
     def cloneState(self):
         newGame = GameState()
+        newGame.board = copy.deepcopy(self.board)
         newGame.g = self.g
         newGame.h = self.h
         newGame.f = self.f
-        newGame.board = copy.deepcopy(self.board)
         return newGame
 
     def identifySolutions(self):
@@ -47,4 +47,4 @@ class GameState:
         return self.board.getBlock(blockID)
 
     def dictionaryToTuple(self, d):
-        return tuple((blockID, block.getState()) for blockID, block in d.items())
+        return tuple(sorted((blockID, block.getState()) for blockID, block in d.items()))
